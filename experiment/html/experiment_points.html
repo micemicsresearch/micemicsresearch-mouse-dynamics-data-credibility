@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <!-- oCanvas library -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/ocanvas/2.10.0/ocanvas.min.js"></script>
+
+        <!-- Bootstrap -->
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+        
+        <!-- Experiment points script -->
+        <script src="./experiment_points.js"></script>
+    </head>
+    
+    <body>
+        <div class="container">
+
+            <div class="row justify-content-center mt-2">
+                <div class="col-12 text-center">
+                    <h1>Experiment - klikanie na body</h1>
+                </div>
+                <div class="col-12 text-center">
+                    <h2 id="taskSpecification"></h2>
+                </div>
+                <div class="col-auto" style="padding:0">
+                    <canvas id="canvas" style="padding:0"></canvas>
+                </div>
+            </div>
+
+            <!-- Task finished modal -->
+            <div class="modal fade" tabindex="-1" id="taskFinishedModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header justify-content-center">
+                            <h5 class="modal-title">Úspešne ukončená úloha</h5>
+                        </div>
+                        <div class="modal-body justify-content-center text-center">
+                            <p>Úlohu ste úspešne ukončili, môžete pokračovať ďalej.</p>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-primary" id="nextButton">Ďalej</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start modal -->
+            <div class="modal fade" tabindex="-1" id="startModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header justify-content-center">
+                            <h5 class="modal-title">Ste pripravený/á?</h5>
+                        </div>
+                        <div class="modal-body justify-content-center text-center">
+                            <p>Pokiaľ ste pripravený/á, kliknite na tlačidlo <b>Začať</b>.</p>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-primary" id="startButton">Začať</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructions modal -->
+            <div class="modal fade" tabindex="-1" id="instructionsModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header justify-content-center">
+                            <h5 class="modal-title">2. Časť experimentu - klikanie na body</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p>Táto časť sa skladá zo 6 rovnakých malých úloh.</p>
+                            <p>
+                                V každej úlohe je od začiatku na obrazovke rôzne rozmiestnených <b>8 bodov očíslovaných od 1 po 8</b>.
+                                Úlohou je klikať na tieto body podľa očíslovania <b>od najmenšieho po najväčšie</b>.
+                                Po kliknutí na správny bod sa jeho farba zmení z červenej na zelenú.
+                            </p>
+                            <div class="row justify-content-center mb-2">
+                                <div class="col-12 text-left">
+                                    <p class="mb-0">Ukážka:</p>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <img src="points_instruction.gif" alt="instruction gif" style="width:auto;height:150px;">
+                                </div>
+                            </div>
+                            <p>
+                                Úloha je úspešne ukončená, keď sú zakliknuté <b>všetky body<br>v správnom poradí</b>
+                                (t.j. všetky body sú zelené).
+                            </p>
+                            <p id="instructions_warpUpInfo"></p>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="nextButton">Pokračovať na úlohy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

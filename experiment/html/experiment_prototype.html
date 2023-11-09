@@ -1,0 +1,510 @@
+<!-- Vue js script -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<!-- Axios script -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        
+<!-- Bootstrap -->
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- custom styles -->
+<link rel="stylesheet" type="text/css" href="./experiment_prototype.css">
+
+<div id="app">
+    <div class="container" id="containerElement">
+        <div class="row justify-content-center mt-2">
+            <div class="col-12 text-center">
+                <h1>Experiment - Prototyp</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-10">
+                <div class="row mt-2 py-1 align-items-center header_bar cut_corners">
+                    <div class="col-2">
+                    </div>
+                    <div class="col-5">
+                        <h2>eshop-DP.sk</h2>
+                    </div>
+                    <div class="col-3">
+                        <div class="row">
+                            <div class="col text-end">
+                                <i class="fa fa-user fa-lg px-2"></i>{{ language === "en" ? "Login" : "Prihlásenie" }}
+                            </div>
+                            <div class="col text-end">
+                                <i class="fa fa-shopping-cart fa-lg px-2"></i>{{ language === "en" ? "Cart" : "Košík" }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="row justify-content-center">
+                            <div class="col-3 language_box text-center mx-1 px-0 cut_corners" v-on:click="changeLanguage"
+                                v-on:mousedown="changeLanguageMD" v-on:mouseup="changeLanguageMU"
+                                :class="{ 'fat_border' : language === 'svk' }">
+                                SVK
+                            </div>
+                            <div class="col-3 language_box text-center mx-1 px-0 cut_corners" :class="{ 'fat_border' : language === 'en' }">EN</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2 ps-0">
+                        <div class="navigation mt-4 cut_corners">
+                            <nav class="nav flex-column py-2">
+                                <button v-for="label in leftNavbarLabels" class="leftnav_item py-2 my-1 mx-2 cut_corners" 
+                                        v-on="label.action ? { click: changeMainCategory, mousedown: changeMainCategoryMD, mouseup: changeMainCategoryMU } : {}"
+                                        :class="{ 'fw-bold' : step > 2 && label.action }">
+                                    {{ label.label }}
+                                </button>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- Main page content -->
+                    <div class="col-10 pe-0">
+                        <div class="main_content mt-4">
+
+                            <!-- Intro -->
+                            <div v-if="step === 1 || step === 2">
+                                <div class="row">
+                                    <div class="col-12 text-center mt-4">
+                                        <img src="eshop_title_image.png" class="title_image" alt="title image">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 text-center mt-5">
+                                        <h3 id="main_content_label1">
+                                            {{ language === "en" ? "Buy everything you need" : "Nakúpte všetko čo potrebujete" }}
+                                        </h3>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 text-center mt-4">
+                                        <h4 id="main_content_label2">
+                                            {{ language === "en" ? "Buy quickly, cheaply and reliably" : "Nakúpte rýchlo, lacno a spoľahlivo" }}
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Products -->
+                            <div v-if="step > 2">
+                                <div class="row">
+                                    <div class="col-12 text-center mt-2">
+                                        <h3>{{ contentLabel }}</h3>
+                                    </div>
+                                </div>
+
+                                <!-- Navigation -->
+                                <div class="row" v-if="upperNavbarLabels">
+                                    <div class="col-12 px-5">
+                                        <div class="navigation px-2">
+                                            <nav class="nav">
+                                                <div class="col-3" v-for="label in upperNavbarLabels">
+                                                    <button class="upnav_item py-2 my-1 mx-2"  
+                                                            v-on="label.action ? { click: changeSecondaryCategory, mousedown: changeSecondaryCategoryMD, mouseup: changeSecondaryCategoryMU } : {}">
+                                                        {{ label.label }}
+                                                    </button> 
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Content -->
+                                <div class="row px-5">
+                                    <div v-if="productItems" class="col-4 mt-3" v-for="product in productItems">
+                                        <div class="shop_item text-center px-3 py-2">
+                                            <div class="fw-bold">
+                                                {{ product.name }}
+                                            </div>
+                                            <div class="item_img mt-1">
+                                                <img :src="product.image" class="card-img-top product_image" alt="product image">
+                                            </div>
+                                            <div class="fw-bold fs-5">
+                                                {{ product.price.toFixed(2) }} €
+                                            </div>
+                                            <button class="btn btn-secondary mt-1" v-on="product.final ? { click: openAddToCardModal, mousedown: openAddToCardModalMD, mouseup: openAddToCardModalMU } : {}">
+                                                Do košíka
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Pagination -->
+                                <div class="row justify-content-center mt-2" v-if="step >= 5">
+                                    <div class="col-2 text-center">
+                                        <div class="row justify-content-center">
+                                            <div class="col-4 px-0">
+                                                <div class="pagination_button mx-2" :class="{ 'fw-bold' : actualPage === 1 }">1</div>
+                                            </div>
+                                            <div class="col-4 px-0">
+                                                <div class="pagination_button mx-2" :class="{ 'fw-bold' : actualPage === 2 }"
+                                                    v-on="actualPage === 1 ? { click: changeProductPage, mousedown: changeProductPageMD, mouseup: changeProductPageMU } : {}">
+                                                    2
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2 mt-2">
+                <div class="instructions_box px-1 py-1">
+                    <div class="row justify-content-center">
+                        <div class="col-12 text-center">
+                            <h3>Úloha</h3>
+                        </div>
+                    </div>
+                    <ol class="task_instruction">
+                        <li v-for="instruction in instructions" v-html="instruction"></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions modal -->
+        <div class="modal fade" tabindex="-1" id="instructionsModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center">
+                        <h5 class="modal-title">3. Časť experimentu - Prototyp webovej stránky</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Vašou <b>úlohou</b> je na nasledujúcom prototype stránky eshopu <b>vykonať nasledovné</b>:</p>
+                        <ol>
+                            <li v-for="instruction in instructions" v-html="instruction"></li>
+                        </ol>
+                        <p>
+                            Úloha bude automaticky ukončená po <b>pridaní produktu do košíka</b>. 
+                            (Pozn. Znenie úlohy sa nachádza aj na pravej strane obrazovky v prototype.)
+                        </p>
+                        <p>
+                            <b>Upozornenie:</b> V prototype stránky <b>funguje vždy len 1 tlačidlo</b>, 
+                            ktoré vás presmeruje na ďalšiu stránku, podľa očakávanej akcie.
+                            <b>Kliknutie na iné</b> než požadované tlačidlo <b>nevyvolá žiadnu akciu</b>.
+                        </p>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Začať úlohu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add to cart modal -->
+        <div class="modal fade" tabindex="-1" id="addToCartModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center">
+                        <h5 class="modal-title">Pridanie do košíka</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row justify-content-center">
+                            <div class="col text-center">
+                                <p>Naozaj chcete pridať zvolený tovar do košíka?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-secondary">Späť</button>
+                        <button type="button" class="btn btn-primary" 
+                            v-on:click="addToCart"
+                            v-on:mousedown="addToCartMD"
+                            v-on:mouseup="addToCartMU">
+                            Áno
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task finished modal -->
+        <div class="modal fade" tabindex="-1" id="confirmationModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center">
+                        <h5 class="modal-title">Úloha ukončená</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row justify-content-center">
+                            <div class="col text-center">
+                                <p>Úlohu sa vám podarilo úspešne zvládnuť.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button class="btn btn-primary" v-on:click="thankYouRedirect">Ďalej</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+  const { createApp } = Vue
+
+  createApp({
+    data() {
+        return {
+            allLabels: null,
+            leftNavbarLabels: [],
+            upperNavbarLabels: [],
+            instructions: [],
+
+            allProducts: null,
+            productItems: [],
+
+            language: "en",
+            step: 1,
+            actualPage: 1,
+            contentLabel: "",
+
+            instructionsModal: null,
+            addToCartModal: null,
+            confirmationModal: null,
+            addToCartModalElement: null,
+
+            //mouse logging data
+            socket: null,
+            loggingMouse: false,
+            targetMouseDown: false,
+            targetMouseUp: false,
+            startTime: null,
+            sessionId: parseInt(window.sessionStorage.getItem('sessionId')),
+            prototypeVariant: window.sessionStorage.getItem("prototypeVariant"),
+            prototypeNumber: parseInt(window.sessionStorage.getItem("prototypeNumber")),
+        }
+    },
+    mounted:  async function () {
+        await this.loadData()
+        
+        addToCartModal = new bootstrap.Modal('#addToCartModal', { keyboard: false, backdrop: 'static', focus: true })
+        confirmationModal = new bootstrap.Modal('#confirmationModal', { keyboard: false, backdrop: 'static', focus: true })
+        instructionsModal = new bootstrap.Modal('#instructionsModal', { keyboard: false, backdrop: 'static', focus: true })
+        instructionsModal.show()
+
+        addToCartModal._element.addEventListener('hidden.bs.modal', event => {
+            confirmationModal.show()
+        })
+
+        this.socket = new WebSocket('ws://localhost:8084')
+
+        this.addMouseTrackingListeners()
+
+        instructionsModal._element.addEventListener('hidden.bs.modal', event =>{
+            this.loggingMouse = true
+            this.startTime = Date.now()
+        })
+    },
+    methods: {
+        async loadData () {
+            let productsResult = await axios.get('http://localhost:8080/products_list', { params: { prototypeVariant: this.prototypeVariant } })
+            this.allProducts = productsResult.data
+            this.productItems = this.allProducts.firstProducts
+
+            let labelsResults = await axios.get('http://localhost:8080/labels', { params: { prototypeVariant: this.prototypeVariant } })
+            this.allLabels = labelsResults.data
+            this.leftNavbarLabels = this.allLabels.sidebarLabelsEn
+            this.instructions = this.allLabels.instructions
+        },
+
+        changeLanguage () {
+            if (this.step === 1) {
+                this.leftNavbarLabels = this.allLabels.sidebarLabelsSvk
+                this.language = "svk"
+                this.step++
+            }
+        },
+
+        changeLanguageMD () {
+            if (this.step === 1) {
+                this.targetMouseDown = true
+            }
+        },
+
+        changeLanguageMU () {
+            if (this.step === 1) {
+                this.targetMouseUp = true
+            }
+        },
+
+        changeMainCategory (event) {
+            if (this.step === 2) {
+                this.step++
+                this.upperNavbarLabels = this.allLabels.firstUpperLabels
+                this.contentLabel = event.srcElement.innerHTML
+            }
+        },
+
+        changeMainCategoryMD () {
+            if (this.step === 2) {
+                this.targetMouseDown = true
+            }
+        },
+
+        changeMainCategoryMU () {
+            if (this.step === 2) {
+                this.targetMouseUp = true
+            }
+        },
+
+        changeSecondaryCategory (event) {
+            if (this.step === 3) {
+                this.upperNavbarLabels = this.allLabels.secondUpperLabels
+                this.productItems = this.allProducts.secondProducts
+                this.contentLabel = event.srcElement.innerHTML
+                this.step++
+            } else if (this.step === 4) {
+                this.upperNavbarLabels = []
+                this.productItems = this.allProducts.thirdProducts
+                this.contentLabel = this.contentLabel + " - " + event.srcElement.innerHTML
+                this.step++
+            }
+        },
+
+        changeSecondaryCategoryMD () {
+            if (this.step === 3 || this.step === 4) {
+                this.targetMouseDown = true
+            }
+        },
+
+        changeSecondaryCategoryMU () {
+            if (this.step === 3 || this.step === 4) {
+                this.targetMouseUp = true
+            }
+        },
+
+        changeProductPage() {
+            if (this.step === 5) {
+                this.productItems = this.allProducts.fourthProducts
+                this.actualPage++
+                this.step++
+            }
+        },
+
+        changeProductPageMD() {
+            if (this.step === 5) {
+                this.targetMouseDown = true
+            }
+        },
+
+        changeProductPageMU() {
+            if (this.step === 5) {
+                this.targetMouseUp = true
+            }
+        },
+
+        openAddToCardModal () {
+            addToCartModal.show()
+            this.step++
+        },
+
+        openAddToCardModalMD() {
+            this.targetMouseDown = true
+        },
+
+        openAddToCardModalMU() {
+            this.targetMouseUp = true
+        },
+
+        addToCart () {
+            this.step++
+            this.loggingMouse = false   // turn off mouse logging 
+            addToCartModal.hide()
+        },
+
+        addToCartMD() {
+            this.targetMouseDown = true
+        },
+
+        addToCartMU() {
+            this.targetMouseUp = true
+        },
+
+        addMouseTrackingListeners () {
+            document.addEventListener('mousemove', (event) => {
+                if (this.loggingMouse) {
+                    let actualTimestamp = Date.now() - this.startTime
+                    //console.log('mousemove')
+                    this.sendMousePos(event.clientX, event.clientY, actualTimestamp, false, 'mousemove')
+                    //console.log("x: ", event.clientX, " y: ", event.clientY)
+                }
+            }, {passive: true})
+
+            document.addEventListener('mousedown', (event) => {
+                if (this.loggingMouse) {
+                    let actualTimestamp = Date.now() - this.startTime
+                    if (this.targetMouseDown) {
+                        //console.log('target mousedown')
+                        this.targetMouseDown = false
+
+                        //console.log("x: ", event.clientX, " y: ", event.clientY, " t: ", actualTimestamp, " tar: ", this.step)
+                        this.sendMousePos(event.clientX, event.clientY, actualTimestamp, true, 'mousedown')
+
+                    } else {
+                        //console.log('mousedown')
+                        this.sendMousePos(event.clientX, event.clientY, actualTimestamp, false, 'mousedown')
+                    }
+                }
+            }, {passive: true})
+
+            document.addEventListener('mouseup', (event) => {
+                if (this.loggingMouse) {
+                    let actualTimestamp = Date.now() - this.startTime
+                    if (this.targetMouseUp) {
+                        //console.log('target mouseup')
+                        this.targetMouseUp = false
+
+                        //console.log("x: ", event.clientX, " y: ", event.clientY, " t: ", actualTimestamp, " tar: ", this.step)
+                        this.sendMousePos(event.clientX, event.clientY, actualTimestamp, true, 'mouseup')
+
+                    } else {
+                        //console.log('mouseup')
+                        this.sendMousePos(event.clientX, event.clientY, actualTimestamp, false, 'mouseup')
+                    }
+                }
+            }, {passive: true})
+        },
+        thankYouRedirect () {
+            window.sessionStorage.removeItem("warmUpTask")
+            window.sessionStorage.removeItem("prototypeNumber")
+            window.sessionStorage.removeItem("prototypeVariant")
+            window.sessionStorage.removeItem("fromGameTab")
+
+            //redirect after clearing sessionStorage
+            window.location.href = "/experiment_end.html"
+        },
+        sendMousePos(x, y, timestamp, isTarget, event) {
+            data = {
+                sessionId: this.sessionId,
+                posX: x,
+                posY: y,
+                timestamp: timestamp,
+                event: event,
+                nextTargetNumber: this.step,
+                isTarget: isTarget,
+                prototypeId: this.prototypeNumber + this.prototypeVariant
+            }
+            sendObject = {
+                type: 'mousePosition',
+                data: data
+            }
+            //console.log('move: ', sendObject)
+            this.socket.send(JSON.stringify(sendObject))
+        }
+    }
+  }).mount('#app')
+</script>

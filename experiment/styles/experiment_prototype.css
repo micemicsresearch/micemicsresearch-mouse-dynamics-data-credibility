@@ -1,0 +1,174 @@
+/* prototype 1*/
+.header_bar {
+    background-color: rgb(230, 230, 230);
+}
+
+.language_box {
+    border: solid 1px black;
+    background: rgb(200, 200, 200);
+}
+
+.language_box:hover {
+    background: rgb(180, 180, 180);
+}
+
+.instructions_box {
+    border: solid 1px black;
+    border-radius: 10px;
+}
+
+.main_content {
+    background-color: rgb(230, 230, 230);
+    height: 580px;
+    border-radius: 10px;
+}
+
+.navigation {
+    background-color: rgb(230, 230, 230);
+}
+
+.fat_border {
+    border-width: 3px !important;
+}
+
+.upnav_item {
+    background: rgb(200, 200, 200);
+    width: 90%;
+    border-radius: 10px;
+}
+
+.upnav_item:hover {
+    background: rgb(180, 180, 180);
+}
+
+.leftnav_item {
+    background: rgb(200, 200, 200);
+}
+
+.leftnav_item:hover {
+    background: rgb(180, 180, 180);
+}
+
+.product_image {
+    height: 100%;
+    width: auto;
+}
+
+.item_img {
+    height: 80px;
+    padding: 5px;
+    background-color: white;
+}
+
+.shop_item {
+    background-color: rgb(215, 215, 215);
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.pagination_button {
+    border: 1px solid black;
+    border-radius: 10px;
+    background: rgb(200, 200, 200);
+}
+
+.pagination_button:hover {
+    background: rgb(180, 180, 180);
+}
+
+.cut_corners {
+    border-radius: 10px;
+}
+
+.title_image {
+    max-width: 95%;
+}
+
+.task_instruction {
+    padding-left: 16px;
+}
+
+/* prototype 2*/
+.item_img2 {
+    height: 120px;
+}
+
+.discount_image {
+    height: auto;
+    width: 100%;
+    max-width: 180px;
+}
+
+.shop_item2 {
+    background-color: rgb(221, 241, 241);
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.main_content2 {
+    height: 580px;
+    border-radius: 10px;
+}
+
+.header_bar2 {
+    background-color: rgb(221, 241, 241);
+}
+
+.nav_item2 {
+    background: rgb(126, 203, 192);
+}
+
+.nav_item2:hover {
+    background: rgb(106, 183, 172);
+}
+
+.upnav_item2 {
+    background: rgb(126, 203, 192);
+    width: 90%;
+    border-radius: 10px;
+    border: 0px solid;
+}
+
+.upnav_item2:hover {
+    background: rgb(106, 183, 172);
+}
+
+.navigation2 {
+    background: rgb(126, 203, 192);
+}
+
+.language_box2 {
+    border: solid 1px black;
+    background: rgb(126, 203, 192);
+}
+
+.language_box2:hover {
+    background: rgb(106, 183, 172);
+}
+
+.pagination_button2 {
+    border: 1px solid black;
+    border-radius: 10px;
+    background: rgb(126, 203, 192);
+}
+
+.pagination_button2:hover {
+    background: rgb(106, 183, 172);
+}
+
+.action_btn {
+    background: rgb(5, 136, 144);
+}
+
+.action_btn:hover {
+    background: rgb(5, 116, 124) !important;
+}
+
+.detail_img {
+    width: 400px;
+}
+
+.discount_detail_image {
+    width: 100%;
+    height: auto;
+}

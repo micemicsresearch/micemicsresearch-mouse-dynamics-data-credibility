@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <!-- oCanvas library -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/ocanvas/2.10.0/ocanvas.min.js"></script>
+
+        <!-- Bootstrap -->
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    
+        <!-- Axios script -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+        <!-- Minigame script -->
+        <script src="./minigame.js"></script>
+        
+    </head>
+    <body>
+        <div class="container">
+
+            <div class="row justify-content-center">
+                <div class="col text-center">
+                    <h1>Minihra - triafanie terčov</h1>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-auto" style="padding:0">
+                    <div class="row">
+                        <div class="col-4">
+                            <p class="fs-4 mb-0"><span>Čas: </span><span id="time">0:00</span></p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <p class="fs-4 mb-0"><span>Zásahy: </span><span id="hits">0</span></p>
+                        </div>
+                        <div class="col-4 text-end">
+                            <p class="fs-3 fw-bold mb-0"><span>Body: </span><span id="points">0</span></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <canvas id="canvas" style="cursor: crosshair; padding:0"></canvas>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <a href="/" class="btn btn-secondary" id="backToIntroButton">Späť na úvodnú stránku</a>
+                        </div>
+                        <!--<div id="newGame" class="col-6 text-end">
+                            <button id="newGameBtn" class="btn btn-primary">Nová hra</canvas>
+                        </div>--->
+                    </div>
+                </div>
+            </div>
+
+            <!-- After game modal -->
+            <div class="modal fade" tabindex="-1" id="afterGameModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header justify-content-center">
+                            <h5 class="modal-title">Čas vypršal</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row justify-content-center">
+                                <div class="col text-center">
+                                    <p>Počet nahratých bodov:</p>
+                                    <p id="gainPointsIndicator" class="fw-bold"></p>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col text-center">
+                                    <p>Ďalšia hra sa spustí po zostrelení zobrazeného terča.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- After game modal in experiment -->
+            <div class="modal fade" tabindex="-1" id="afterGameModalInExperiment" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header justify-content-center">
+                            <h5 class="modal-title">Čas vypršal</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row justify-content-center">
+                                <div class="col text-center">
+                                    <p>Počet nahratých bodov:</p>
+                                    <p id="gainPointsIndicatorInExperiment" class="fw-bold"></p>
+                                </div>
+                            </div>
+                            <div id="gameRepetitionInfo" class="row justify-content-center">
+                                <div class="col text-center">
+                                    <p>V rámci experimentu je potrebné hru ešte zopakovať.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-primary" 
+                                    data-bs-dismiss="modal" id="continueInExperimentButton">
+                                Hrať znovu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start instructions modal -->
+            <div class="modal fade" tabindex="-1" id="startInstructionsModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header justify-content-center">
+                            <h5 class="modal-title">1. Časť experimentu - Minihra</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p id="experimentInstruction">V rámci experimentu bude minihra zopakovaná <b>3 krát</b>.</p>
+                            <p>
+                                Úlohou v minihre je <b>zostrelovať terče</b>, ktoré sa budú zobrazovať na hracej ploche.
+                                Na hru máte <b>obmedzený čas</b>, ktorý je zobrazený vľavo hore.
+                            </p>
+                            <p>
+                                Za každé zostrelenie terča získate body. Čím <b>bližšie ku stredu</b> zasiahnete terč, tým <b>viac bodov</b> získate.
+                                Terče sa po zobrazení začnú postupne zväčšovať. Čím <b>skôr</b> terč zasiahnete, tým <b>viac bodov</b> získate.
+                            </p>
+                            <div class="row justify-content-center mb-2">
+                                <div class="col-12 text-left">
+                                    <p class="mb-0">Ukážka:</p>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <img src="minigame_instruction.gif" alt="instruction gif" style="width:auto;height:150px;">
+                                </div>
+                            </div>
+                            <p>
+                                <b>Cieľom je nazbierať čo najviac bodov.<br>Čas začne plynúť po zostrelení prvého terča.</b>
+                            </p>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ďalej</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start show results modal -->
+            <div class="modal fade" tabindex="-1" id="topResultsModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header justify-content-center">
+                            <h5 class="modal-title">Top výsledky</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row justify-content-center">
+                                <p>
+                                    Prekonajte doterajšie najlepšie výsledky z hry.
+                                </p>
+                                <p>
+                                    <b>Top výsledky pred vašou hrou (poradie, počet bodov):</b>
+                                </p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-4 text-conter">
+                                    <ul id="topResultsList">
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Hrať!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

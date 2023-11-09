@@ -1,0 +1,464 @@
+<!-- Vue js script -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<!-- Axios script -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<!-- Bootstrap -->
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+
+<!-- custom styles -->
+<link rel="stylesheet" type="text/css" href="./index.css">
+
+<div id="app">
+    <div class="container">
+
+        <div class="row justify-content-center mt-2">
+            <div class="col-12 text-center">
+                <h1>Experiment pre diplomovú prácu</h1>
+            </div>
+        </div>
+
+        <nav class="nav nav-pills nav-justified mt-3 mb-5">
+            <button class="nav-item nav-link" v-on:click="changeActivePage('introPage')" :class="{ 'active': activePage === 'introPage' }">
+                Úvod
+            </button>
+            <!-- Only for online experiment --->
+            <!--<button class="nav-item nav-link" v-on:click="changeActivePage('infoPage')" :class="{ 'active': activePage === 'infoPage' }">
+                Informácie
+            </button>-->
+            <button class="nav-item nav-link" v-on:click="changeActivePage('formPage')" :class="{ 'active': activePage === 'formPage' }">
+                Experiment
+            </button>
+            <button class="nav-item nav-link" v-on:click="changeActivePage('minigamePage')" :class="{ 'active': activePage === 'minigamePage' }">
+                Minihra
+            </button>
+        </nav>
+
+        <!-- Introduction page -->
+        <div class="container" v-if="activePage==='introPage'">
+            <div class="row justify-content-center">
+                <div class="col-8 text-left">
+                    <p>
+                        Vitajte na webovej stránke experimentu určeného na zbieranie dát o pohyboch počítačovej myši.
+                    </p>
+                </div>
+                <div class="col-8 text-center">
+                    <h2>Predstavenie</h2>
+                </div>
+                <div class="col-8 text-left">
+                    <p>
+                        Moje meno je Peter Nemček a som študentom 2. ročníka inžinierskeho stupňa
+                        na Fakulte informatiky a informačných technológií v Bratislave. 
+                        <br>Experiment, ktorý som pripravil a ktorého je možné sa zúčastniť prostredníctvom 
+                        tejto webovej stránky, je súčasťou mojej diplomovej práce s názvom: 
+                        Predikcia pohlavia používateľa z interakčných dát so zameraním sa na vplyv vlastností a nastavení myši.
+                    </p>
+                </div>
+                <div class="col-8 text-center">
+                    <h2>Základné informácie</h2>
+                </div>
+                <div class="col-8 text-left">
+                    <p>
+                        Na vypracovanie mojej diplomovej práce potrebujem zozbierať čo najväčšie množstvo dát od vás, používateľov,
+                        ktoré budem neskôr analyzovať a následne ich použijem aj pri strojovom učení. Preto som pripravil tento experiment a 
+                        chcem Vás požiadať o to, aby ste sa ho zúčastnili a pomohli mi tak zozbierať potrebné dáta. 
+                    </p>
+                    <p>
+                        Experiment obsahuje jednoduché úlohy, počas ktorých je zaznamenávaná poloha kurzoru Vašej počítačovej 
+                        myši. Experiment je možné vykonať v časti <b>Experiment</b>, 
+                        kde sú taktiež pokyny k jeho vykonaniu.
+                    </p>
+                    <!-- Only for online experiment --->
+                    <!--<p>
+                        Podrobnejšie informácie o mojej diplomovej práci nájdete v prípade záujmu v časti <b>Informácie</b>.
+                    </p>
+                    <p>
+                        Súčasťou experimentu je minihra. Pokiaľ sa vám páči a chceli by ste sa po absolvovaní experimentu zahrať, 
+                        môžete tak urobiť v časti <b>Minihra</b>. Hru je však možné hrať až po absolvovaní experimentu.
+                    </p>-->
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col text-center">
+                        <button class="btn btn-primary" v-on:click="changeActivePage('formPage')">Ísť na experiment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info page -->
+        <div class="container" v-else-if="activePage==='infoPage'">
+            <div class="row justify-content-center">
+                <div class="col-8 text-left">
+                    <p>Info text. Info text. Info text. Info text. Info text.
+                        Info text. Info text. Info text. Info text. Info text.
+                        Info text. Info text. Info text. Info text. Info text.
+                        Info text. Info text. Info text. Info text. Info text
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Form page -->
+        <div class="container" v-else-if="activePage==='formPage'">
+            <div class="row justify-content-center">
+                <div class="col-12 text-center">
+                    <h2>Inštrukcie k experimentu</h2>
+                </div>
+
+                <div class="col-12 text-center">
+                    <button class="btn btn-secondary" id="collapseInstructionsBtn" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#collapseInstructions" aria-expanded="false" aria-controls="collapseInstructions"
+                        v-on:click="toggleShowInstructions">
+                        {{ showInstructions ? "Skryť inštrukcie" : "Zobraziť inštrukcie" }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="collapse" id="collapseInstructions">
+                <div class="row justify-content-center mt-2">
+                    <div class="col-6 text-left">
+                        <p>
+                            Pri experimente sú zbieranie dáta o pohybe <b>kurzora počítačovej myši</b>. Úlohy v ňom sú prispôsobené práve na tento účel.
+                            Experiment obsahuje <b>3 časti</b>:
+                        </p>
+                        <ul>
+                            <li><b>1. časť hra</b> - jednoduchá hra na zostreľovanie objavujúcich sa terčov</li>
+                            <li><b>2. časť klikanie bodov</b> - úlohy na klikanie bodov rozmiestnených po obrazovke</li>
+                            <li><b>3. časť prototyp webovej stránky</b> - vykonanie úlohy na základe inštrukcií</li>
+                        </ul>
+                        <p>
+                            Všetky časti a pokyny k nim sú opísané <b>bezprostredne pred ich vykonaním</b>.
+                        </p>
+                        <p>
+                            Nemáte sa čoho obávať, <b>úlohy sú jednoduché</b> a jedno vykonanie experimentu by nemalo zabrať viac ako <b>5 min</b>.
+                        </p>
+                        <!-- Only for online experiment --->
+                        <!--<p><b>Upozornenie:</b> Experiment je potrebné vykonávať iba s použitím počítačovej myši.</p>
+                        <p>Experiment môžete v prípade záujmu vykonať aj viackrát. V takom prípade Vás prosím o použitie rovnakého
+                            identifikátora v oboch prípadoch.
+                        </p>--->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center mt-3">
+                <div class="col-12 text-center">
+                    <h2>Dotazník pred experimentom</h2>
+                </div>
+            </div>
+
+            <div class="row justify-content-center mt-2" v-if="!userSessionId">
+                <div class="col-6 text-left">
+                    <p>
+                        Pred vstupom do experimentu je potrebné vyplniť nasledujúci <b>dotazník</b>, 
+                        kde poskytnete o sebe <b>niekoľko údajov</b>. 
+                        Tie budú neskôr použité na vyhodnotenie zozbieraných dát o pohyboch vašej počítačovej myši.
+                    </p>
+                    <p>
+                        Pozn. Žiadne z vyžadovaných údajov <b>nepodliehajú zákonu o ochrane osobných údajov</b>. 
+                        Na ich základe nie je možné jednoznačne identifikovať akúkoľvek osobu.
+                    </p>
+                    <hr>
+                </div>
+            </div>
+
+            <!-- Only for in-person experiment --->
+            <div v-if="userSessionId">
+                <div class="row justify-content-center mt-2">
+                    <div class="col-6 text-left">
+                        <p>
+                            Aktuálne sú uložné údaje pre respondenta z posledného opakovania. Ak ich chcete zmeniť,
+                            stlačte tlačidlo <b>Vytvoriť nového respondenta</b>. 
+                            <br>V opačnom prípade stačí, aby dozor experimentu vyplnil nasledujúce údaje.
+                        </p>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-6 text-center">
+                        <button class="btn btn-primary" v-on:click="createNewRespondent">Vytvoriť nového respondenta</button>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+  
+            <form v-on:submit="register($event)">
+                <div class="row justify-content-center mt-2">
+                    <div class="col-4">
+                        <div v-if="!userSessionId">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold" for="experienceRange">
+                                    Ako sebaisto sa cítite pri používaní počítača na škále od 0 do 10
+                                </label>
+                                <div class="range-wrapper">
+                                    <div class="bubble" id="experienceRangeBubble" :style="{ left: `calc(${bubbleValue}% + ${bubblePosition}px)` }">
+                                        <span>{{ actualExperienceRangeValue }}</span>
+                                    </div>
+                                    <input type="range" class="form-range" :min="minExperienceRange" :max="maxExperienceRange" 
+                                        v-model="actualExperienceRangeValue" id="experienceRange" name="experienceRange">
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-0">Začiatočník</p>
+                                    <p class="mb-0">Pokročilý</p>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold" for="pcUsage">Koľko priemerne trávite času používaním PC?</label>
+                                <select id="pcUsageFormElement" name="pcUsage" class="form-select" required>
+                                    <option value="0" disabled selected hidden>Vyberte možnosť</option>
+                                    <option value="more than 3 hours daily">viac ako 3 hodiny denne</option>
+                                    <option value="2 - 3 hours daily">2-3 hodiny denne</option>
+                                    <option value="1 hour daily">1 hodinu denne</option>
+                                    <option value="2 - 3 hours weekly">2-3 hodiny týždenne</option>
+                                    <option value="1 hour weekly">1 hodinu týždenne</option>
+                                    <option value="less than 1 hour weekly">menej ako 1 hodinu týždenne</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <div>
+                                    <label class="form-label fw-bold" for="sex">Pohlavie</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="sex" id="sexMan" value="man" required>
+                                    <label class="form-check-label" for="sexMan">Muž</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="sex" id="sexWoman" value="woman" required>
+                                    <label class="form-check-label" for="sexWoman">Žena</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="sex" id="sexIntersex" value="intersex" required>
+                                    <label class="form-check-label" for="sexIntersex">Intersexuál</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="sex" id="sexNotAnswered" value="notAnswered" required>
+                                    <label class="form-check-label" for="sexNotAnswered">Nechcem odpovedať</label>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold" for="age">Vek</label>
+                                <input type="number" class="form-control" id="age" name="age" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold" for="employment">Zamestnanie (študenti aj odbor)</label>
+                                <input type="text" class="form-control" id="employment" name="employment" autocomplete="off" required>
+                            </div>
+
+                            <!-- Only for online experiment --->
+                            <!--<div class="mb-3">
+                                <label class="form-label fw-bold" for="identification">Identifikátor v rámci experimentu</label>
+                                <label class="form-label" for="identification">(V tvare DD_MM, DD - deň a MM mesiac narodenia)</label>
+                                <input type="text" class="form-control" id="identification" name="identification" required>
+                            </div>-->
+                        </div>
+
+                        <!-- Only for in-person experiment (fill in by supervisor of experiment) --->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" for="note">Poznámka k experimentu (vypĺňa dozor)</label>
+                            <input type="text" class="form-control" id="note" name="note" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <div>
+                                <label class="form-label fw-bold" for="prototypeNumber">Prototyp (vypĺňa dozor)</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="prototypeNumber" id="prototype1" value="1A" required>
+                                <label class="form-check-label" for="prototype1">1A</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="prototypeNumber" id="prototype2" value="1B" required>
+                                <label class="form-check-label" for="prototype2">1B</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="prototypeNumber" id="prototype3" value="1C" required>
+                                <label class="form-check-label" for="prototype3">1C</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="prototypeNumber" id="prototype4" value="2A" required>
+                                <label class="form-check-label" for="prototype4">2A</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="prototypeNumber" id="prototype5" value="2B" required>
+                                <label class="form-check-label" for="prototype5">2B</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="prototypeNumber" id="prototype6" value="2C" required>
+                                <label class="form-check-label" for="prototype6">2C</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="checkbox" class="form-check-input" id="warmUpFormElement" name="warmUp">
+                            <label class="form-label fw-bold" for="warmUp">Pridať zahrievaciu úlohu (vypĺňa dozor)</label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row justify-content-center mt-2">
+                    <div class="col-6 text-left">
+                        <p>
+                            <b>Upozornenie:</b> počas experimentu nenačítavajte stránku znovu, nepreklikávajte sa z tejto na iné stránky a pod. 
+                            <br>Prosím vás, krok po kroku sa riaďte inštrukciami v experimente až dovtedy, kým ho neukončíte.
+                        </p>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-2 mb-5">
+                    <div class="col-4 text-center">
+                        <button type="submit" class="btn btn-primary">Vstup do experimentu</button>
+                        <!--<input type="submit" id="info-submit" class="btn btn-primary" value="Submit">-->
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <!-- Minigame page -->
+        <div class="container" v-else-if="activePage==='minigamePage'">
+            <div class="row justify-content-center">
+                <div class="col-12 text-center">
+                    <h2>Minihra - triafanie terčov</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-6 text-left">
+                    <p>
+                        Pokiaľ sa Vám páčila minihra, ktorá je súčasťou experimentu a chceli by ste si ju zopakovať,
+                        môžete tak urobiť práve tu. Stačí zadať Váš identifikátor, ktorý ste zadali v dotazníku
+                        pred vykonaním experimentu.
+                    </p>
+                    <p>
+                        Ak ste ešte nevykonali experiment, prosím Vás, najskôr vykonajte ten a potom môžete vstúpiť do minihry.
+                    </p>
+                </div>
+            </div>
+            <div class="row justify-content-center mt-2">
+                <div class="col-4 text-center">
+                    <button class="btn btn-primary" v-on:click="goToGameFromMinigameTab">Vstup do hry</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const { createApp } = Vue
+    createApp({
+    data() {
+        return {
+            activePage: 'introPage',
+            showInstructions: false,
+            userSessionId: undefined,
+
+            //form range
+            minExperienceRange: 0,
+            maxExperienceRange: 10,
+            experienceRangeValue: 5,
+            bubbleValue: null,
+            bubblePosition: null,
+        }
+    },
+    computed: {
+        actualExperienceRangeValue: {
+            get() {
+                return this.experienceRangeValue
+            },
+            set(value) {
+                this.experienceRangeValue = value
+            }
+        }
+    },
+    mounted () {
+        this.setBubbleValue(this.experienceRangeValue)
+        this.userSessionId = window.sessionStorage.getItem("sessionId")
+    },
+    methods: {
+        changeActivePage(page) {
+            this.activePage = page
+        },
+        goToGameFromMinigameTab() {
+            window.sessionStorage.setItem("fromGameTab", "true")
+            window.location.href = "/minigame.html"
+        },
+        toggleShowInstructions() {
+            this.showInstructions = !this.showInstructions
+        },
+        setBubbleValue(value) {
+            this.bubbleValue = Number((value - this.minExperienceRange) * 100 / (this.maxExperienceRange - this.minExperienceRange))
+            this.bubblePosition = 8 - (this.bubbleValue * 0.16)
+        },
+        async register(event) {
+            event.preventDefault()
+
+            const prototypeIdentificator = document.querySelector('input[name="prototypeNumber"]:checked').value
+            
+            //if same respondent again
+            if (this.userSessionId) {
+                axios.post('/registration_session', {
+                    respondentId: window.sessionStorage.getItem("respondentId"),
+                    note: document.querySelector('input[name="note"]').value,
+                    prototypeNumber: prototypeIdentificator,
+                    warmUp: warmUpFormElement.checked,
+                }).then(response => {
+                    this.setSessionStorageExperimentData(warmUpFormElement.checked, prototypeIdentificator, response.data.result.sessionId)
+                    //redirect after valid response from server
+                    window.location.href = "/minigame.html" 
+                }).catch(error => {
+                    console.log("error: ", error)
+                    alert("Niečo nie je v poriadku. Kontaktujte tvorcu experimentu.")
+                })
+            }
+            else {
+                const pcUsage = pcUsageFormElement.options[pcUsageFormElement.selectedIndex].value
+
+                axios.post('/registration', {
+                    experienceRange: parseInt(document.querySelector('input[name="experienceRange"]').value),
+                    pcUsage: pcUsage,
+                    sex: document.querySelector('input[name="sex"]:checked').value,
+                    age: parseInt(document.querySelector('input[name="age"]').value),
+                    employment: document.querySelector('input[name="employment"]').value,
+                    /* Only for online experiment */
+                    // identification: document.querySelector('input[name="identification"]').value, //Only for online experiment
+                    note: document.querySelector('input[name="note"]').value,
+                    prototypeNumber: prototypeIdentificator,
+                    warmUp: warmUpFormElement.checked,
+                }).then(response => {
+                    this.setSessionStorageExperimentData(warmUpFormElement.checked, prototypeIdentificator, response.data.result.sessionId) 
+                    window.sessionStorage.setItem("respondentId", response.data.result.respondentId)
+                    //redirect after valid response from server
+                    window.location.href = "/minigame.html"
+                }).catch(error => {
+                    console.log("error: ", error)
+                    alert("Niečo nie je v poriadku. Kontaktujte tvorcu experimentu.")
+                })
+            }
+        },
+        setSessionStorageExperimentData(warmUp, prototypeId, sessionId) {
+            window.sessionStorage.setItem("warmUpTask", warmUp)
+            window.sessionStorage.setItem("prototypeNumber", prototypeId[0])
+            window.sessionStorage.setItem("prototypeVariant", prototypeId[1])
+            window.sessionStorage.setItem("fromGameTab", "false")
+            window.sessionStorage.setItem("sessionId", sessionId)
+        },
+        createNewRespondent() {
+            window.sessionStorage.removeItem("respondentId")
+            window.sessionStorage.removeItem("sessionId")
+            this.userSessionId = window.sessionStorage.getItem("sessionId")
+        }
+    },
+    watch: {
+        actualExperienceRangeValue(value) {
+            this.setBubbleValue(value)
+        }
+    }
+  }).mount('#app')
+</script>
