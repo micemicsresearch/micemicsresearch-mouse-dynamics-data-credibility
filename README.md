@@ -29,10 +29,11 @@ We conducted an study measuring the mouse dynamics of the same users using multi
 @article{doi:10.1016/j.csi.2024.103849,
 title = {Is mouse dynamics information credible for user behavior research? An empirical investigation},
 journal = {Computer Standards & Interfaces},
+volume = {90},
 pages = {103849},
 year = {2024},
 issn = {0920-5489},
-publisher = {Elsevier B.V.},
+publisher = {Elsevier},
 doi = {https://doi.org/10.1016/j.csi.2024.103849},
 url = {https://www.sciencedirect.com/science/article/pii/S0920548924000187},
 author = {Eduard Kuric and Peter Demcak and Matus Krajcovic and Peter Nemcek}
